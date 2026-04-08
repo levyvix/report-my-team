@@ -1,9 +1,9 @@
 import asyncio
 import logging
 
-from .lcu import LcuClient
-from .models import REPORT_CATEGORIES, EogStatsBlock, Player, ReportPayload
-from .state import AppState
+from report_my_team.lcu import LcuClient
+from report_my_team.models import REPORT_CATEGORIES, EogStatsBlock, Player, ReportPayload
+from report_my_team.state import AppState
 
 logger = logging.getLogger(__name__)
 

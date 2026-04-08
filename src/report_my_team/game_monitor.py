@@ -2,10 +2,10 @@ import asyncio
 import json
 import logging
 
-from .lcu import LcuClient
-from .models import Friend, GameSession
-from .reporter import handle_end_game
-from .state import AppState
+from report_my_team.lcu import LcuClient
+from report_my_team.models import Friend, GameSession
+from report_my_team.reporter import handle_end_game
+from report_my_team.state import AppState
 
 logger = logging.getLogger(__name__)
 

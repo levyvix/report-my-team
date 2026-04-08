@@ -34,7 +34,7 @@ jobs:
             --name ReportMyTeam `
             --console `
             --collect-all report_my_team `
-            launcher.py
+            src/report_my_team/__main__.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

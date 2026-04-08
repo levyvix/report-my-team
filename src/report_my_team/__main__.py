@@ -2,9 +2,9 @@ import asyncio
 import logging
 import sys
 
-from .game_monitor import monitor_client, monitor_phase
-from .lcu import LcuClient
-from .state import AppState
+from report_my_team.game_monitor import monitor_client, monitor_phase
+from report_my_team.lcu import LcuClient
+from report_my_team.state import AppState
 
 
 def _configure_logging() -> None:
