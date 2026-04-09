@@ -1,4 +1,4 @@
-# ReportMyTeam (Python)
+# ReportMyTeam
 
 A League of Legends automation tool that monitors the game client and automatically reports all players at the end of every game — except players on your friends list, and you of course.
 
@@ -15,7 +15,7 @@ For this option, you need:
 - [uv](https://docs.astral.sh/uv/)
 
 ```bash
-git clone https://github.com/levyvix/report-my-team-py
-cd report-my-team-py
+git clone https://github.com/levyvix/report-my-team
+cd report-my-team
 uv run report-my-team
 ```
