@@ -2,7 +2,7 @@
   "packages": {
     ".": {
       "release-type": "python",
-      "package-name": "report-my-team-py",
+      "package-name": "report-my-team",
       "version-file": "pyproject.toml"
     }
   }
