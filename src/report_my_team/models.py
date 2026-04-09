@@ -49,3 +49,6 @@ class ReportPayload(BaseModel):
     categories: list[str]
     offenderSummonerId: int
     offenderPuuid: str
+
+
+
