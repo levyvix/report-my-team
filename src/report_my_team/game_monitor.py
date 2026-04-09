@@ -13,7 +13,6 @@ PHASE_SLEEP: dict[str, float] = {
     "Lobby": 60.0,
     "Matchmaking": 60.0,
     "ReadyCheck": 60.0,
-    "ChampSelect": 60.0,
     "InProgress": 4.0,
     "WaitingForStats": 2.0,
     "PreEndOfGame": 1.0,

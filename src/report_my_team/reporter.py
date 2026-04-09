@@ -2,7 +2,12 @@ import asyncio
 import logging
 
 from report_my_team.lcu import LcuClient
-from report_my_team.models import REPORT_CATEGORIES, EogStatsBlock, Player, ReportPayload
+from report_my_team.models import (
+    REPORT_CATEGORIES,
+    EogStatsBlock,
+    Player,
+    ReportPayload,
+)
 from report_my_team.state import AppState
 
 logger = logging.getLogger(__name__)
@@ -34,7 +39,9 @@ async def handle_end_game(client: LcuClient, state: AppState) -> None:
         for player in team.players:
             if player.botPlayer:
                 logger.info(
-                    "Skipping %s (%s) — bot player", player.riotIdGameName or player.championName, player.championName
+                    "Skipping %s (%s) — bot player",
+                    player.riotIdGameName or player.championName,
+                    player.championName,
                 )
             else:
                 report_tasks.append(_report_player(client, state, stats.gameId, player))
@@ -55,19 +62,17 @@ async def _report_player(client: LcuClient, state: AppState, game_id: int, playe
         return
 
     logger.info("Reporting %s (%s, ID %d)...", name, champ, player.summonerId)
-    payload = ReportPayload(
-        gameId=game_id,
-        categories=REPORT_CATEGORIES,
-        offenderSummonerId=player.summonerId,
-        offenderPuuid=player.puuid,
-    )
     status, _ = await client.request(
         "POST",
         "lol-player-report-sender/v1/end-of-game-reports",
-        json_body=payload.model_dump(),
+        json_body=ReportPayload(
+            gameId=game_id,
+            categories=REPORT_CATEGORIES,
+            offenderSummonerId=player.summonerId,
+            offenderPuuid=player.puuid,
+        ).model_dump(),
     )
-
     if status == 204:
-        logger.info("%s (%s) has been reported", name, champ)
+        logger.info("%s (%s) reported successfully", name, champ)
     else:
         logger.warning("Failed to report %s (%s) — HTTP %d", name, champ, status)

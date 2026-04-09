@@ -48,7 +48,14 @@ class LcuClient:
         try:
             # Primary: WMIC (matches original C# behavior on Windows)
             result = subprocess.run(
-                ["wmic", "process", "where", f"Processid={proc.pid}", "get", "Commandline"],
+                [
+                    "wmic",
+                    "process",
+                    "where",
+                    f"Processid={proc.pid}",
+                    "get",
+                    "Commandline",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=5,
