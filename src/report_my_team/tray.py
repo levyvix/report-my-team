@@ -25,7 +25,7 @@ def _monitor_minimize(hwnd: int, on_minimize: Callable[[], None]) -> None:
     When minimized, call on_minimize() to hide the console.
     Runs in a daemon thread.
     """
-    user32 = ctypes.windll.user32
+    user32 = ctypes.windll.user32  # type: ignore[attr-defined]
     is_iconic = user32.IsIconic
     is_iconic.argtypes = [wintypes.HWND]
     is_iconic.restype = wintypes.BOOL
@@ -47,8 +47,8 @@ def run_tray() -> None:
 
     Blocks the main thread (required by pystray on Windows).
     """
-    kernel32 = ctypes.windll.kernel32
-    user32 = ctypes.windll.user32
+    kernel32 = ctypes.windll.kernel32  # type: ignore[attr-defined]
+    user32 = ctypes.windll.user32  # type: ignore[attr-defined]
 
     get_console_window = kernel32.GetConsoleWindow
     get_console_window.restype = wintypes.HWND
