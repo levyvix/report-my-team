@@ -2,6 +2,7 @@ import ctypes
 import logging
 import os
 import threading
+from collections.abc import Callable
 from ctypes import wintypes
 
 import pystray
@@ -18,7 +19,7 @@ def _create_icon_image() -> Image.Image:
     return image
 
 
-def _monitor_minimize(hwnd: int, on_minimize: callable) -> None:
+def _monitor_minimize(hwnd: int, on_minimize: Callable[[], None]) -> None:
     """Poll every 100ms for console window minimize state.
 
     When minimized, call on_minimize() to hide the console.
