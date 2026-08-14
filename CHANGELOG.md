@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0](https://github.com/levyvix/report-my-team/compare/report-my-team-v1.2.1...report-my-team-v1.3.0) (2026-08-14)
+
+
+### Features
+
+* add system tray icon with minimize-to-tray functionality ([a014f11](https://github.com/levyvix/report-my-team/commit/a014f110d180b60a329629e9807ba050a293d8cd))
+* add system tray icon with minimize-to-tray functionality ([de4756d](https://github.com/levyvix/report-my-team/commit/de4756dec5300f2d32f1e3272efc95b86675f265))
+
+
+### Bug Fixes
+
+* add proper type annotation for Callable parameter ([a8cf671](https://github.com/levyvix/report-my-team/commit/a8cf671e9e7fdc69ec064c6f2270971fec12288c))
+* add type ignore for windll (Windows-only) on Linux CI ([fe7421a](https://github.com/levyvix/report-my-team/commit/fe7421ae03af2b17672417abb869d8a9b91b483e))
+* satisfy ruff lint checks ([3918e60](https://github.com/levyvix/report-my-team/commit/3918e60d17a46cca9d49fa1fd839467619ecc753))
+
 ## [1.2.1](https://github.com/levyvix/report-my-team/compare/report-my-team-v1.2.0...report-my-team-v1.2.1) (2026-04-14)
 
 
