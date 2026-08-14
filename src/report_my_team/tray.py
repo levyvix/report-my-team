@@ -38,8 +38,8 @@ def _monitor_minimize(hwnd: int, on_minimize: Callable[[], None]) -> None:
                 on_minimize()
             was_iconic = is_min
             threading.Event().wait(0.1)
-        except Exception as e:
-            logger.debug("Minimize monitor error: %s", e)
+        except (OSError, ctypes.ArgumentError) as exc:
+            logger.debug("Minimize monitor error: %s", exc)
 
 
 def run_tray() -> None:

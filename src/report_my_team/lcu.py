@@ -59,6 +59,7 @@ class LcuClient:
                 capture_output=True,
                 text=True,
                 timeout=5,
+                check=False,
             )
             cmdline = result.stdout
         except (FileNotFoundError, subprocess.TimeoutExpired):
