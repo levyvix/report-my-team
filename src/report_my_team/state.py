@@ -4,8 +4,10 @@ from dataclasses import dataclass, field
 @dataclass
 class AppState:
     last_game_id: int = 0
+    reporting_game_id: int = 0
     current_player_id: int = 0
     friends_ids: set[int] = field(default_factory=set)
+    completed_report_player_ids: set[int] = field(default_factory=set)
     found_friends: bool = False
 
     def reset(self) -> None:

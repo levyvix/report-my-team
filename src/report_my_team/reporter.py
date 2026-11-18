@@ -23,7 +23,10 @@ async def handle_end_game(client: LcuClient, state: AppState) -> None:
 
     if stats.gameId == state.last_game_id:
         return
-    state.last_game_id = stats.gameId
+
+    if state.reporting_game_id != stats.gameId:
+        state.reporting_game_id = stats.gameId
+        state.completed_report_player_ids.clear()
 
     logger.info("End of game reached. Fetching stats...")
 
@@ -34,7 +37,7 @@ async def handle_end_game(client: LcuClient, state: AppState) -> None:
     player_count = sum(len(team.players) for team in stats.teams)
     logger.info("Game %d ended. Processing %d players...", stats.gameId, player_count)
 
-    report_tasks = []
+    players_to_report = []
     for team in stats.teams:
         for player in team.players:
             if player.botPlayer:
@@ -44,22 +47,51 @@ async def handle_end_game(client: LcuClient, state: AppState) -> None:
                     player.championName,
                 )
             else:
-                report_tasks.append(_report_player(client, state, stats.gameId, player))
-    await asyncio.gather(*report_tasks, return_exceptions=True)
+                players_to_report.append(player)
+
+    results = await asyncio.gather(
+        *(_report_player(client, state, stats.gameId, player) for player in players_to_report),
+        return_exceptions=True,
+    )
+    incomplete = False
+    for player, result in zip(players_to_report, results):
+        if isinstance(result, BaseException):
+            logger.error(
+                "Reporting %s (%s, ID %d) raised an error: %s",
+                player.riotIdGameName,
+                player.championName or "Unknown",
+                player.summonerId,
+                result,
+            )
+            incomplete = True
+        elif not result:
+            incomplete = True
+
+    if incomplete:
+        logger.warning("Reporting is incomplete; failed players will be retried.")
+    else:
+        state.last_game_id = stats.gameId
+        state.reporting_game_id = 0
+        state.completed_report_player_ids.clear()
     logger.info("------------------")
 
 
-async def _report_player(client: LcuClient, state: AppState, game_id: int, player: Player) -> None:
+async def _report_player(client: LcuClient, state: AppState, game_id: int, player: Player) -> bool:
     name = player.riotIdGameName
     champ = player.championName or "Unknown"
 
+    if player.summonerId in state.completed_report_player_ids:
+        return True
+
     if player.summonerId == state.current_player_id:
         logger.info("Skipping %s (%s) — current account", name, champ)
-        return
+        state.completed_report_player_ids.add(player.summonerId)
+        return True
 
     if player.summonerId in state.friends_ids:
         logger.info("Skipping %s (%s) — friend detected (ID %d)", name, champ, player.summonerId)
-        return
+        state.completed_report_player_ids.add(player.summonerId)
+        return True
 
     logger.info("Reporting %s (%s, ID %d)...", name, champ, player.summonerId)
     status, _ = await client.request(
@@ -74,5 +106,8 @@ async def _report_player(client: LcuClient, state: AppState, game_id: int, playe
     )
     if status == 204:
         logger.info("%s (%s) reported successfully", name, champ)
+        state.completed_report_player_ids.add(player.summonerId)
+        return True
     else:
         logger.warning("Failed to report %s (%s) — HTTP %d", name, champ, status)
+        return False
