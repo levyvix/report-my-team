@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/levyvix/report-my-team/compare/report-my-team-v1.3.0...report-my-team-v1.3.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* retry incomplete end game reports ([#11](https://github.com/levyvix/report-my-team/issues/11)) ([7d58cf2](https://github.com/levyvix/report-my-team/commit/7d58cf29190aae9f89ee40f45dff7506ffb14ef1))
+
 ## [1.3.0](https://github.com/levyvix/report-my-team/compare/report-my-team-v1.2.1...report-my-team-v1.3.0) (2026-08-14)
 
 
